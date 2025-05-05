@@ -1,0 +1,972 @@
+/* Mobile First Approach - Base Styles (Smallest Screens) */
+
+/* General Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #14151a; /* Binance dark background */
+    color: #eaecef; /* Binance light text */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    box-sizing: border-box;
+    -webkit-text-size-adjust: 100%; /* Prevent font scaling on iOS */
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+/* Layout */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Stack containers vertically on mobile */
+    align-items: center; /* Center containers horizontally */
+    padding: 15px 10px; /* Mobile padding */
+}
+
+/* Container Styles */
+.container {
+    background: #1e2026; /* Binance slightly lighter dark */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 20px 15px; /* Mobile padding */
+    width: 100%;
+    max-width: 500px; /* Max width for mobile */
+    border: 1px solid #2b3139; /* Subtle border */
+    margin-bottom: 20px; /* Space between containers */
+}
+
+.login {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.login img {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 15px;
+}
+
+.wallet {
+    display: none; /* Hidden initially */
+    text-align: left;
+    max-width: 100%; /* Full width on mobile */
+}
+
+/* Typography */
+h1 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #eaecef;
+    font-weight: 600;
+    text-align: center;
+}
+
+.wallet h1 {
+    text-align: left;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #2b3139;
+    padding-bottom: 8px;
+    font-size: 1.2rem;
+}
+
+h2 {
+    font-size: 1.1rem;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: #b0b8c5;
+    border-bottom: 1px solid #2b3139;
+    padding-bottom: 8px;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #eaecef;
+    font-weight: 500;
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 14px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #353a40;
+    border-radius: 4px;
+    background: #2b3139;
+    color: #eaecef;
+    font-size: 1rem;
+}
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+    color: #707a8a;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #f0b90b;
+    box-shadow: 0 0 0 2px rgba(240, 185, 11, 0.2);
+}
+
+button {
+    background-color: #f0b90b;
+    color: #14151a;
+    border: none;
+    border-radius: 4px;
+    padding: 14px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #f3c83d;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.copy-button {
+    background-color: #353a40;
+    color: #eaecef;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    width: auto;
+    margin-left: 0; /* Adjusted for mobile */
+    margin-top: 5px; /* Adjusted for mobile */
+    vertical-align: middle;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.copy-button:hover {
+    background-color: #474d57;
+}
+
+/* Ticker */
+.ticker {
+    margin-top: 15px;
+    background: #2b3139;
+    color: #b0b8c5;
+    font-size: 0.85rem;
+    padding: 8px 10px;
+    border-radius: 4px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    border: 1px solid #353a40;
+}
+
+#crypto-ticker {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker-scroll 120s linear infinite;
+    will-change: transform;
+}
+
+@keyframes ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Wallet Specific Styles */
+.total-balance {
+    background: #2b3139;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.total-balance h2 {
+    border-bottom: none;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #b0b8c5;
+}
+
+.total-balance p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #eaecef;
+    margin: 0;
+}
+
+.crypto-icons {
+    display: grid;
+    grid-template-columns: 1fr; /* Stack coins vertically */
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.crypto-icon-container {
+    background: #2b3139;
+    border-radius: 4px;
+    padding: 12px;
+    transition: background-color 0.2s;
+    border: 1px solid #353a40;
+    display: flex;
+    align-items: center; /* Align items horizontally */
+}
+
+.crypto-icon-container:hover {
+    background-color: #353a40;
+}
+
+.crypto-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0; /* Removed bottom margin */
+    flex-shrink: 0;
+}
+
+.crypto-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.crypto-details {
+    margin-left: 10px; /* Space between icon and details */
+    flex-grow: 1; /* Take remaining space */
+    text-align: left;
+}
+
+.crypto-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #eaecef;
+    display: block; /* Ensure name is on its own line if needed */
+    margin-bottom: 2px;
+}
+
+.crypto-icon-container p {
+    margin: 2px 0;
+    font-size: 0.85rem;
+    color: #b0b8c5;
+}
+
+.crypto-balance {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #eaecef;
+    margin-top: 0;
+}
+
+.crypto-usd-value {
+    font-size: 0.8rem;
+    color: #707a8a;
+}
+
+.crypto-icon-container button {
+    width: auto; /* Auto width */
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    margin-top: 0; /* Removed top margin */
+    margin-left: auto; /* Push to the right */
+    background-color: #353a40;
+    color: #eaecef;
+    font-weight: 500;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.crypto-icon-container button:hover {
+    background-color: #474d57;
+}
+
+/* Charts & Transactions */
+.charts,
+.transactions {
+    margin-top: 25px;
+    background: #1e2026;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #2b3139;
+}
+
+.chart-container {
+    position: relative;
+    height: 160px;
+    width: 100%;
+}
+
+#growth-chart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.transaction {
+    text-align: left;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #2b3139;
+    border-radius: 4px;
+    border-left: 3px solid #f0b90b;
+    display: flex;
+    flex-direction: column; /* Stack details */
+    align-items: flex-start;
+}
+
+.transaction p {
+    margin: 2px 0;
+    font-size: 0.85rem;
+    color: #b0b8c5;
+    word-wrap: break-word;
+    width: 100%;
+}
+
+.transaction p strong {
+    color: #eaecef;
+    min-width: 50px;
+    display: inline-block;
+    font-weight: 500;
+}
+
+.transaction .txid {
+    font-family: monospace;
+    color: #f0b90b;
+    font-size: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* Allow wrapping */
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 5px;
+}
+
+.transaction .copy-button {
+    align-self: flex-start;
+}
+
+#transactions-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Custom Scrollbar */
+#transactions-list::-webkit-scrollbar {
+    width: 5px;
+}
+#transactions-list::-webkit-scrollbar-track {
+    background: #1e2026;
+    border-radius: 3px;
+}
+#transactions-list::-webkit-scrollbar-thumb {
+    background: #353a40;
+    border-radius: 3px;
+}
+#transactions-list::-webkit-scrollbar-thumb:hover {
+    background: #474d57;
+}
+
+/* Popups */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2b3139;
+    padding: 20px 15px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    width: 90%;
+    max-width: 400px;
+    z-index: 1000;
+    border: 1px solid #353a40;
+}
+
+.popup h2,
+.popup h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #eaecef;
+    text-align: center;
+    border-bottom: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.popup p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: #b0b8c5;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.popup .popup-buttons {
+    display: flex;
+    flex-direction: column; /* Stack buttons */
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.popup button {
+    width: 100%;
+    margin-top: 0;
+    font-weight: 600;
+    padding: 12px 15px;
+}
+
+.popup button.cancel-button {
+    background-color: #353a40;
+    color: #eaecef;
+}
+
+.popup button.cancel-button:hover {
+    background-color: #474d57;
+}
+
+.popup img.qr-code {
+    display: block;
+    margin: 15px auto;
+    max-width: 150px;
+    height: auto;
+    border: 4px solid #353a40;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #707a8a;
+}
+
+.wallet-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    background-color: #1e2026;
+    padding: 8px 10px;
+    border-radius: 4px;
+    border: 1px solid #353a40;
+}
+
+.wallet-address {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    color: #eaecef;
+    font-family: monospace;
+    margin-right: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 5px 0;
+    font-size: 0.85rem;
+}
+
+.wallet-address:focus {
+    outline: none;
+}
+
+/* Language Selector */
+.language-selector-container {
+    order: 1; /* Position in nav */
+    align-self: center;
+    margin-bottom: 5px;
+}
+
+#language-selector {
+    background-color: #2b3139;
+    color: #eaecef;
+    border: 1px solid #353a40;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+#language-selector:focus {
+    outline: none;
+    border-color: #f0b90b;
+}
+
+/* Navigation Menu */
+header {
+    background-color: #1e2026;
+    padding: 8px 10px;
+    border-bottom: 1px solid #2b3139;
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    width: 100%;
+}
+
+nav.main-nav {
+    display: flex;
+    flex-direction: column; /* Stack on mobile */
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 8px;
+}
+
+.nav-links {
+    order: 2; /* Below language selector */
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-around;
+    border-top: 1px solid #2b3139;
+    padding-top: 8px;
+}
+
+.nav-links a {
+    color: #b0b8c5;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 5px 0;
+    transition: color 0.2s, border-bottom 0.2s;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #f0b90b;
+    border-bottom-color: #f0b90b;
+}
+
+/* Chatbot Styles */
+.chatbot-toggler {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    outline: none;
+    border: none;
+    height: 45px;
+    width: 45px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f0b90b;
+    transition: all 0.2s ease;
+    z-index: 999;
+}
+
+.chatbot-toggler span {
+    color: #14151a;
+    position: absolute;
+    transition: opacity 0.2s ease;
+}
+
+body:not(.show-chatbot) .chatbot-toggler span:last-child {
+    opacity: 0;
+}
+body.show-chatbot .chatbot-toggler span:first-child {
+    opacity: 0;
+}
+body.show-chatbot .chatbot-toggler span:last-child {
+    opacity: 1;
+}
+
+.chatbot-popup {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%; /* Full height on mobile */
+    max-height: 100%;
+    background: #1e2026;
+    border-radius: 0; /* No radius on mobile */
+    box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
+                0 32px 64px -48px rgba(0,0,0,0.5);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(100%); /* Start off-screen */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    z-index: 998;
+    display: flex;
+    flex-direction: column;
+    border: none; /* No border on mobile */
+}
+
+body.show-chatbot .chatbot-popup {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0); /* Slide in */
+}
+
+.chatbot-popup header {
+    padding: 12px 15px;
+    position: relative;
+    text-align: center;
+    color: #eaecef;
+    background: #2b3139;
+    border-radius: 0;
+    border-bottom: 1px solid #353a40;
+    flex-shrink: 0;
+}
+
+.chatbot-popup header h2 {
+    font-size: 1rem;
+    margin: 0;
+    border-bottom: none;
+    color: #eaecef;
+    font-weight: 600;
+}
+
+.chatbot-popup header .close-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    color: #b0b8c5;
+    cursor: pointer;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+}
+
+.chatbot-popup header .close-btn:hover {
+    color: #eaecef;
+}
+
+.chatbot-popup .chatbox {
+    overflow-y: auto;
+    flex-grow: 1; /* Take available space */
+    padding: 15px;
+    background: #1e2026;
+    list-style: none;
+}
+
+.chatbot-popup .chatbox::-webkit-scrollbar {
+    width: 5px;
+}
+.chatbot-popup .chatbox::-webkit-scrollbar-track {
+    background: #1e2026;
+}
+.chatbot-popup .chatbox::-webkit-scrollbar-thumb {
+    background: #353a40;
+    border-radius: 3px;
+}
+.chatbot-popup .chatbox::-webkit-scrollbar-thumb:hover {
+    background: #474d57;
+}
+
+.chatbox .chat {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.chatbox .chat p {
+    color: #eaecef;
+    max-width: 85%;
+    white-space: pre-wrap;
+    font-size: 0.9rem;
+    padding: 10px 14px;
+    border-radius: 10px 10px 0 10px;
+    background: #353a40;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.chatbox .chat p.error {
+    color: #ff4d4f;
+    background: #4d2a2b;
+}
+
+.chatbox .incoming span {
+    width: 30px;
+    height: 30px;
+    color: #eaecef;
+    cursor: default;
+    text-align: center;
+    line-height: 30px;
+    align-self: flex-end;
+    background: #f0b90b;
+    border-radius: 4px;
+    margin: 0 8px 5px 0;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.chatbox .outgoing {
+    margin: 0 0 12px auto;
+    justify-content: flex-end;
+}
+
+.chatbox .outgoing p {
+    border-radius: 10px 10px 10px 0;
+    background: #f0b90b;
+    color: #14151a;
+}
+
+.chatbot-popup .chat-input {
+    display: flex;
+    gap: 5px;
+    position: relative;
+    padding: 8px 15px;
+    border-top: 1px solid #353a40;
+    background: #2b3139;
+    flex-shrink: 0;
+}
+
+.chat-input textarea {
+    height: 48px;
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    max-height: 120px;
+    padding: 12px;
+    font-size: 0.9rem;
+    background: #1e2026;
+    border-radius: 4px;
+    color: #eaecef;
+    border: 1px solid #353a40;
+}
+
+.chat-input textarea::placeholder {
+    color: #707a8a;
+}
+
+.chat-input textarea:focus {
+    border-color: #f0b90b;
+}
+
+.chat-input span {
+    align-self: flex-end;
+    color: #707a8a;
+    cursor: pointer;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+    font-size: 1.2rem;
+    transition: color 0.2s ease;
+}
+
+.chat-input textarea:valid ~ span {
+    visibility: visible;
+}
+
+.chat-input span:hover {
+    color: #f0b90b;
+}
+
+/* Chat Options (Buttons) */
+.chat-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 15px;
+    border-top: 1px solid #353a40;
+    background: #2b3139;
+    flex-shrink: 0;
+}
+
+.chat-options button {
+    flex-grow: 1;
+    flex-basis: calc(50% - 3px);
+    background-color: #353a40;
+    color: #eaecef;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    width: auto;
+    margin-top: 0;
+    font-weight: 500;
+    text-align: center;
+}
+
+.chat-options button:hover {
+    background-color: #474d57;
+}
+
+/* Footer */
+footer {
+    background-color: #1e2026;
+    padding: 12px 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #707a8a;
+    border-top: 1px solid #2b3139;
+    margin-top: auto; /* Push footer to bottom */
+}
+
+/* Medium screens (Tablets) */
+@media (min-width: 641px) {
+    .main-content {
+        padding: 20px;
+    }
+    .container {
+        padding: 25px;
+    }
+    .login img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 20px;
+    }
+    h1 { font-size: 1.6rem; margin-bottom: 20px; }
+    h2 { font-size: 1.3rem; margin-bottom: 15px; }
+    h3 { font-size: 1.1rem; margin-bottom: 12px; }
+
+    input[type="text"],
+    input[type="password"] {
+        padding: 12px 15px;
+    }
+    button { padding: 12px 20px; }
+
+    .total-balance { padding: 20px; }
+    .total-balance p { font-size: 1.8rem; }
+
+    .crypto-icons {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust minmax */
+        gap: 15px;
+    }
+    .crypto-icon-container {
+        padding: 15px;
+        flex-direction: column; /* Back to vertical layout */
+        align-items: flex-start;
+    }
+    .crypto-header { margin-bottom: 10px; }
+    .crypto-details { margin-left: 0; }
+    .crypto-icon-container button {
+        width: 100%; /* Full width button */
+        margin-left: 0;
+        margin-top: 15px;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .charts, .transactions { padding: 20px; }
+    .chart-container { height: 220px; }
+    .transaction {
+        padding: 12px 15px;
+        flex-direction: row; /* Horizontal layout */
+        align-items: center;
+        justify-content: space-between;
+    }
+    .transaction p { font-size: 0.9rem; width: auto; }
+    .transaction .txid {
+        white-space: nowrap;
+        max-width: calc(100% - 150px); /* Adjust based on other elements */
+        margin-bottom: 0;
+    }
+    .transaction .copy-button {
+        margin-left: 10px;
+        margin-top: 0;
+        align-self: center;
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+    #transactions-list { max-height: 350px; }
+
+    .popup { padding: 25px 30px; max-width: 450px; }
+    .popup h2, .popup h3 { font-size: 1.2rem; }
+    .popup p { font-size: 1rem; }
+    .popup .popup-buttons {
+        flex-direction: row; /* Horizontal buttons */
+        gap: 15px;
+    }
+    .popup img.qr-code { max-width: 180px; }
+    .wallet-address { font-size: 0.9rem; }
+
+    header { padding: 10px 20px; }
+    nav.main-nav {
+        flex-direction: row; /* Horizontal nav */
+        justify-content: space-between;
+        gap: 20px;
+    }
+    .language-selector-container {
+        order: 0; /* Reset order */
+        align-self: center;
+        margin-bottom: 0;
+    }
+    #language-selector { padding: 6px 10px; font-size: 0.9rem; }
+    .nav-links {
+        order: 0; /* Reset order */
+        width: auto;
+        border-top: none;
+        padding-top: 0;
+        gap: 20px;
+    }
+    .nav-links a { font-size: 1rem; padding: 8px 0; }
+
+    .chatbot-toggler { right: 35px; bottom: 30px; height: 50px; width: 50px; }
+    .chatbot-popup {
+        right: 35px;
+        bottom: 95px;
+        width: 90%;
+        max-width: 420px;
+        height: auto; /* Auto height */
+        max-height: 70vh; /* Limit height */
+        border-radius: 15px;
+        transform: scale(0.5);
+        transform-origin: bottom right;
+        border: 1px solid #2b3139;
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    body.show-chatbot .chatbot-popup {
+        transform: scale(1);
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .chatbot-popup header { padding: 16px 20px; border-radius: 15px 15px 0 0; }
+    .chatbot-popup header h2 { font-size: 1.1rem; }
+    .chatbot-popup .chatbox { height: 350px; padding: 20px 20px 15px; }
+    .chatbox .chat p { font-size: 0.95rem; padding: 12px 16px; }
+    .chatbox .incoming span { width: 32px; height: 32px; line-height: 32px; font-size: 1.2rem; margin: 0 10px 7px 0; }
+    .chatbot-popup .chat-input { padding: 10px 20px; }
+    .chat-input textarea { height: 55px; padding: 15px; font-size: 0.95rem; }
+    .chat-input span { height: 55px; font-size: 1.35rem; }
+    .chat-options { padding: 10px 20px; gap: 8px; }
+    .chat-options button { flex-basis: calc(50% - 4px); font-size: 0.9rem; padding: 10px 12px; }
+
+    footer { padding: 20px; font-size: 0.9rem; }
+}
+
+/* Large screens (Desktops) */
+@media (min-width: 1024px) {
+    .container {
+        /* Ensure login container is centered */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .wallet {
+        max-width: 800px; /* Wider wallet container */
+        /* Ensure wallet container is centered */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .main-content {
+        /* Ensure content area itself allows centering */
+        align-items: center; /* Vertical centering if needed, adjust as per design */
+    }
+    nav.main-nav {
+        /* Already centered via max-width and margin: auto */
+    }
+}
+
+/* Further adjustments for very small screens if needed */
+@media (max-width: 360px) {
+    h1 { font-size: 1.2rem; }
+    .total-balance p { font-size: 1.4rem; }
+    .crypto-icon-container button { font-size: 0.75rem; padding: 5px 8px; }
+    .nav-links a { font-size: 0.85rem; }
+    .chatbox .chat p { font-size: 0.85rem; padding: 8px 12px; }
+    .chat-options button { font-size: 0.75rem; padding: 6px 8px; }
+}
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="aboutTitle">About Us - Next Dollar USA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+             <div class="nav-links">
+                 <a href="index.html" data-translate="navHome">Home</a>
+                 <a href="about.html" data-translate="navAbout">About Us</a>
+                 <a href="contact.html" data-translate="navContact">Contact</a>
+             </div>
+            <div class="language-selector-container">
+                <select id="language-selector" onchange="setLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="pt">Português</option>
+                    <option value="zh">中文</option>
+                    <option value="ru">Русский</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 data-translate="aboutHeading">About Next Dollar USA</h1>
+        <p data-translate="aboutParagraph1">
+            Welcome to Next Dollar USA, your trusted partner in navigating the world of digital assets. We are committed to providing a secure, user-friendly platform for managing your cryptocurrency portfolio.
+        </p>
+        <p data-translate="aboutParagraph2">
+            Our mission is to empower individuals with the tools and knowledge needed to confidently participate in the digital economy. We believe in transparency, security, and innovation.
+        </p>
+        <!-- Add more content as needed -->
+    </div>
+
+    <!-- Include language scripts -->
+    <script src="translations.js"></script>
+    <script src="language.js"></script>
+    <script>
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('language') || 'en';
+            setLanguage(savedLang);
+            // Ensure the dropdown shows the correct saved language
+            const selector = document.getElementById('language-selector');
+            if (selector) {
+                selector.value = savedLang;
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+<!-- Chatbot Button -->
+<button class="chatbot-toggler" id="chatbot-toggler">
+    <span class="material-icons">mode_comment</span>
+    <span class="material-icons">close</span>
+</button>
+
+<!-- Chatbot Popup -->
+<div class="chatbot-popup" id="chatbot-popup">
+    <header>
+        <h2 data-translate="chatHeader">Chat</h2>
+        <span class="close-btn material-icons" id="close-chatbot">close</span>
+    </header>
+    <ul class="chatbox" id="chatbox">
+        <li class="chat incoming">
+            <span class="material-icons">smart_toy</span>
+            <p data-translate="chatWelcome">Hi there 👋<br>How can I help you today?</p>
+        </li>
+    </ul>
+    <div class="chat-input">
+        <textarea placeholder="Enter a message..." spellcheck="false" required data-translate="chatPlaceholder"></textarea>
+        <span id="send-chat-btn" class="material-icons">send</span>
+    </div>
+</div>
