@@ -1,972 +1,1292 @@
-/* Mobile First Approach - Base Styles (Smallest Screens) */
+/* styles.css - Redesigned for a Modern, Professional, and Engaging Look */
 
-/* General Styles */
+/* === Global Styles & Variables === */
+:root {
+    --primary-font: 'Roboto', 'Arial', sans-serif; /* Modern, readable sans-serif */
+    --heading-font: 'Montserrat', 'Arial', sans-serif; /* Stylish, modern heading font */
+
+    --dark-bg: #12181b; /* Slightly desaturated dark blue/grey */
+    --medium-dark-bg: #1f2933;
+    --light-dark-bg: #2c3a47; /* For cards and distinct sections */
+    
+    --text-light: #f0f4f8;
+    --text-medium: #c0c5c9;
+    --text-dark: #909599;
+
+    --primary-accent: #00A896; /* Vibrant Teal */
+    --primary-accent-dark: #007A76;
+    --secondary-accent: #F0C808; /* Warm Yellow/Gold */
+    --secondary-accent-dark: #D0A808;
+
+    --success-color: #4CAF50;
+    --error-color: #F44336;
+
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 8px rgba(0,0,0,0.3);
+    --shadow-lg: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap');
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #14151a; /* Binance dark background */
-    color: #eaecef; /* Binance light text */
+    font-family: var(--primary-font);
     margin: 0;
     padding: 0;
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+main {
+    padding: 0; /* Sections will handle their own padding */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.content-section {
+    padding: 4rem 2rem;
+    margin-bottom: 0; /* Remove default margin, manage spacing with padding or specific margins */
+}
+
+.content-section.alt-bg {
+    background-color: var(--medium-dark-bg);
+}
+
+section h1, section h2, section h3, section h4, section h5, section h6 {
+    font-family: var(--heading-font);
+    color: var(--primary-accent);
+    margin-top: 0;
+}
+
+section h2 {
+    text-align: center; /* Centers text *within* the h2 */
+    font-size: 2.5em;
+    margin-bottom: 2.5rem;
+    border-bottom: 3px solid var(--primary-accent-dark);
+    padding-bottom: 0.8rem;
+    display: inline-block; /* To make border only as wide as text, parent's text-align:center will center this element */
+}
+
+section p {
+    color: var(--text-medium);
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--secondary-accent);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-accent-dark);
+}
+
+/* === Navigation Bar === */
+.main-nav {
+    background-color: rgba(31, 41, 51, 0.9); /* Semi-transparent dark */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed; /* Keep it fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(5px); /* Frosted glass effect */
+}
+
+.nav-logo a {
+    font-family: var(--heading-font);
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--primary-accent);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    color: var(--text-light);
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--secondary-accent);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+}
+
+#language-selector select {
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--primary-accent-dark);
+    background-color: var(--light-dark-bg);
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 0.9em;
+    font-family: var(--primary-font);
+}
+
+/* === Hero Section === */
+.hero-section {
+    background: linear-gradient(rgba(18, 24, 27, 0.8), rgba(18, 24, 27, 0.8)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover; /* Replace with a relevant, high-quality background image */
+    color: white;
+    padding: 10rem 2rem 8rem 2rem; /* More padding, especially top for nav bar */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh; /* Ensure it takes up significant viewport height */
+    margin-top: 70px; /* Offset for fixed navbar height */
+}
+
+.hero-content h1 {
+    font-size: 3.5em;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white; /* Override section h1 color */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-content .tagline {
+    font-size: 1.5em;
+    margin-bottom: 2rem;
+    color: var(--text-medium);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.primary-cta-button {
+    background-color: var(--secondary-accent);
+    color: var(--dark-bg);
+    padding: 0.8rem 2rem;
+    font-size: 1.1em;
+    font-weight: 700;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    box-shadow: var(--shadow-sm);
+}
+
+.primary-cta-button:hover {
+    background-color: var(--secondary-accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.hero-cta {
+    font-size: 1.3em;
+    padding: 1rem 2.5rem;
+}
+
+/* === Card Styling === */
+.card-style {
+    background-color: var(--light-dark-bg);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-style:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* === Features Section === */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.feature-item {
+    text-align: center;
+}
+
+.feature-icon {
+    font-size: 3em;
+    color: var(--primary-accent);
+    margin-bottom: 1rem;
+}
+
+.feature-item h3 {
+    font-size: 1.5em;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+}
+
+/* === How It Works Section === */
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    text-align: center;
+}
+
+.step-number {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--secondary-accent);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.step-item h3 {
+    font-size: 1.5em;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+}
+
+/* === Purchase Section === */
+.purchase-section {
+    text-align: center; /* This helps center the H2 title and other inline/inline-block content */
+}
+
+.purchase-text {
+    font-size: 1.1em;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.get-app-main-button {
+    font-size: 1.3em;
+    padding: 1rem 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.trust-badges span {
+    display: inline-block;
+    margin: 0.5rem 1rem;
+    color: var(--text-dark);
+    font-size: 0.9em;
+}
+
+.trust-badges i {
+    margin-right: 0.5rem;
+    color: var(--primary-accent);
+}
+
+/* === Demo Section === */
+.video-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.video-container iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+    border-radius: var(--border-radius-md); /* Consistent with card style */
+}
+
+/* === Story Section === */
+.story-section p {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.story-section .highlight {
+    background-color: var(--medium-dark-bg);
+    color: var(--text-light);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-md);
+    margin-top: 1.5rem;
+    font-weight: 500;
+    border-left: 5px solid var(--secondary-accent);
+}
+
+.story-section .highlight strong {
+    color: var(--secondary-accent);
+}
+
+/* === Testimonials Section === */
+.testimonials-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.testimonial-card {
+    background-color: var(--light-dark-bg);
+    border: 1px solid var(--medium-dark-bg);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    box-sizing: border-box;
-    -webkit-text-size-adjust: 100%; /* Prevent font scaling on iOS */
+    align-items: center;
+    text-align: center;
 }
 
-*,
-*::before,
-*::after {
-    box-sizing: inherit;
-}
-
-/* Layout */
-.main-content {
-    flex: 1;
+.testimonial-avatar-placeholder {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--primary-accent-dark);
+    margin-bottom: 1rem;
     display: flex;
-    flex-direction: column; /* Stack containers vertically on mobile */
-    align-items: center; /* Center containers horizontally */
-    padding: 15px 10px; /* Mobile padding */
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2em;
 }
 
-/* Container Styles */
-.container {
-    background: #1e2026; /* Binance slightly lighter dark */
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    padding: 20px 15px; /* Mobile padding */
-    width: 100%;
-    max-width: 500px; /* Max width for mobile */
-    border: 1px solid #2b3139; /* Subtle border */
-    margin-bottom: 20px; /* Space between containers */
+.testimonial-avatar-placeholder::before {
+    content: "\f007";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
 }
 
-.login {
+.testimonial-quote {
+    font-style: italic;
+    color: var(--text-medium);
+    margin-bottom: 1rem;
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+.testimonial-author {
+    font-weight: 700;
+    color: var(--primary-accent);
+    font-size: 0.9em;
+    margin-top: auto;
+}
+
+/* === Contact Section === */
+.contact-section {
     text-align: center;
-    margin-top: 10px;
 }
 
-.login img {
-    width: 45px;
-    height: 45px;
-    margin-bottom: 15px;
+.contact-icons a {
+    display: inline-block;
+    margin: 0 1rem;
 }
 
-.wallet {
-    display: none; /* Hidden initially */
-    text-align: left;
-    max-width: 100%; /* Full width on mobile */
+.contact-icons i {
+    font-size: 3em;
+    color: var(--primary-accent);
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
-/* Typography */
-h1 {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-    color: #eaecef;
+.contact-icons i:hover {
+    color: var(--primary-accent-dark);
+    transform: scale(1.1);
+}
+
+/* === Footer === */
+.site-footer {
+    background-color: var(--medium-dark-bg);
+    color: var(--text-dark);
+    padding: 3rem 2rem 1rem 2rem;
+    font-size: 0.9em;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer-column h3 {
+    font-size: 1.2em;
+    color: var(--primary-accent);
+    margin-bottom: 1rem;
     font-weight: 600;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-column ul li a {
+    color: var(--text-dark);
+}
+
+.footer-column ul li a:hover {
+    color: var(--secondary-accent);
+}
+
+.social-icons a {
+    margin-right: 1rem;
+}
+.social-icons i {
+    font-size: 1.5em;
+    color: var(--text-dark);
+    transition: color 0.3s ease;
+}
+.social-icons i:hover {
+    color: var(--secondary-accent);
+}
+
+.footer-bottom {
     text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--light-dark-bg);
+    font-size: 0.85em;
 }
 
-.wallet h1 {
-    text-align: left;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #2b3139;
-    padding-bottom: 8px;
-    font-size: 1.2rem;
+.footer-bottom .disclaimer {
+    margin-top: 0.5rem;
+    font-size: 0.8em;
+    color: var(--text-dark);
 }
 
-h2 {
-    font-size: 1.1rem;
-    margin-top: 25px;
-    margin-bottom: 10px;
-    color: #b0b8c5;
-    border-bottom: 1px solid #2b3139;
-    padding-bottom: 8px;
-    font-weight: 500;
-}
-
-h3 {
-    font-size: 1rem;
-    margin-bottom: 10px;
-    color: #eaecef;
-    font-weight: 500;
-}
-
-/* Form Elements */
-input[type="text"],
-input[type="password"] {
+/* === Dialog Boxes (Modals) === */
+.dialog {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
     width: 100%;
-    padding: 14px 15px;
-    margin-bottom: 15px;
-    border: 1px solid #353a40;
-    border-radius: 4px;
-    background: #2b3139;
-    color: #eaecef;
-    font-size: 1rem;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(18, 24, 27, 0.85); /* Darker, more opaque overlay */
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
 }
 
-input[type="text"]::placeholder,
-input[type="password"]::placeholder {
-    color: #707a8a;
+.dialog-content {
+    background-color: var(--light-dark-bg);
+    margin: auto;
+    padding: 2.5rem;
+    border: none; /* Removed border, rely on shadow */
+    width: 90%;
+    max-width: 550px;
+    border-radius: var(--border-radius-lg);
+    position: relative;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
-    outline: none;
-    border-color: #f0b90b;
-    box-shadow: 0 0 0 2px rgba(240, 185, 11, 0.2);
-}
-
-button {
-    background-color: #f0b90b;
-    color: #14151a;
-    border: none;
-    border-radius: 4px;
-    padding: 14px 15px;
+.close {
+    color: var(--text-dark);
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8em;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
-    width: 100%;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-top: 10px;
+    transition: color 0.3s ease;
 }
 
-button:hover {
-    background-color: #f3c83d;
+.close:hover,
+.close:focus {
+    color: var(--text-light);
 }
 
-button:active {
-    transform: scale(0.98);
+.dialog h3 {
+    color: var(--primary-accent);
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-size: 1.6em;
 }
 
-.copy-button {
-    background-color: #353a40;
-    color: #eaecef;
-    padding: 4px 8px;
-    font-size: 0.75rem;
-    width: auto;
-    margin-left: 0; /* Adjusted for mobile */
-    margin-top: 5px; /* Adjusted for mobile */
-    vertical-align: middle;
+.dialog-input {
+    width: calc(100% - 24px);
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--medium-dark-bg);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    font-size: 1em;
+    font-family: var(--primary-font);
+}
+
+.dialog-input::placeholder {
+    color: var(--text-dark);
+}
+
+.dialog-buttons button,
+.dialog-button-group button,
+.proceed-button {
+    background-color: var(--primary-accent-dark);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1em;
     font-weight: 500;
-    flex-shrink: 0;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.copy-button:hover {
-    background-color: #474d57;
+.dialog-buttons button:hover,
+.dialog-button-group button:hover {
+    background-color: var(--primary-accent);
 }
 
-/* Ticker */
-.ticker {
+.primary-dialog-button {
+    background-color: var(--secondary-accent) !important;
+    color: var(--dark-bg) !important;
+}
+
+.primary-dialog-button:hover {
+    background-color: var(--secondary-accent-dark) !important;
+}
+
+.secondary-dialog-button {
+    background-color: var(--medium-dark-bg) !important;
+    color: var(--text-light) !important;
+}
+
+.secondary-dialog-button:hover {
+    background-color: var(--light-dark-bg) !important;
+}
+
+.platform-buttons,
+.poker-app-buttons,
+.payment-method-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Payment Dialog Specifics */
+.qr-code {
+    max-width: 220px;
+    height: auto;
+    margin: 1.5rem auto;
+    display: block;
+    background-color: white;
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+}
+
+.loading {
+    color: var(--secondary-accent);
+    font-size: 1.2em;
+    margin: 1.5rem 0;
+}
+
+#payment-details p {
+    margin: 0.5rem 0;
+}
+
+.wallet-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 0.5rem;
+}
+
+.wallet-address {
+    flex-grow: 1;
+    padding: 0.6rem;
+    border: 1px solid var(--medium-dark-bg);
+    border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#copy-wallet-button.copy-button {
+    background-color: var(--secondary-accent);
+    color: var(--dark-bg);
+    border: none;
+    padding: 0.6rem 1rem; /* Matched to wallet-address padding for height consistency */
+    font-size: 0.9em; /* Matched to wallet-address font-size */
+    font-weight: 500;
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#copy-wallet-button.copy-button:hover {
+    background-color: var(--secondary-accent-dark);
+}
+
+/* Coupon Section in Payment Dialog */
+.price-container {
+    margin-bottom: 1rem;
+    font-size: 1.2em;
+}
+
+.original-amount {
+    text-decoration: line-through;
+    color: var(--text-dark);
+    font-size: 0.9em;
+    margin-right: 0.8rem;
+}
+
+.coupon-section {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.coupon-input {
+    padding: 0.7rem;
+    font-size: 1em;
+    width: calc(80% - 22px);
+    max-width: 300px;
+}
+
+.coupon-button {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9em;
+}
+
+.coupon-message {
+    font-size: 0.9em;
+    margin-top: 0.5rem;
+    min-height: 1.3em;
+}
+
+.coupon-message.success {
+    color: var(--success-color);
+}
+
+.coupon-message.error {
+    color: var(--error-color);
+}
+
+/* === Chatbot Styles === */
+.chatbot-icon {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--primary-accent);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8em;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    z-index: 998;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.chatbot-icon:hover {
+    transform: scale(1.1);
+    background-color: var(--primary-accent-dark);
+}
+
+.chatbot-window {
+    position: fixed;
+    bottom: 100px; /* Position above icon */
+    right: 30px;
+    width: 360px;
+    max-height: 550px;
+    background-color: var(--light-dark-bg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.chatbot-window.open {
+    display: flex;
+}
+
+.chatbot-header {
+    background-color: var(--primary-accent-dark);
+    color: white;
+    padding: 0.8rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-family: var(--heading-font);
+}
+
+.chatbot-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.chatbot-messages {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.chatbot-message {
+    padding: 0.6rem 1rem;
+    border-radius: var(--border-radius-md);
+    max-width: 85%;
+    word-wrap: break-word;
+    line-height: 1.5;
+}
+
+.chatbot-message.bot {
+    background-color: var(--medium-dark-bg);
+    color: var(--text-light);
+    align-self: flex-start;
+    border-bottom-left-radius: var(--border-radius-sm);
+}
+
+.chatbot-message.user {
+    background-color: var(--primary-accent);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: var(--border-radius-sm);
+}
+
+.chatbot-message.typing-indicator {
+    padding: 0.8rem 1rem;
+    display: inline-block;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background-color: var(--text-dark);
+    border-radius: 50%;
+    margin: 0 1px;
+    animation: typing-blink 1.4s infinite both;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing-blink {
+    0% { opacity: 0.2; }
+    20% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
+.chatbot-buttons {
+    padding: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    border-top: 1px solid var(--medium-dark-bg);
+}
+
+.chatbot-button {
+    background-color: var(--primary-accent);
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.chatbot-button:hover {
+    background-color: var(--primary-accent-dark);
+}
+
+/* === Responsive Design === */
+@media (max-width: 1024px) {
+    .hero-content h1 {
+        font-size: 3em;
+    }
+    .hero-content .tagline {
+        font-size: 1.3em;
+    }
+    section h2 {
+        font-size: 2.2em;
+    }
+    .main-nav {
+        padding: 1rem;
+    }
+    .nav-links {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 15px;
+    }
+    .main-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.8rem;
+    }
+    .nav-logo {
+        margin-bottom: 0.5rem;
+    }
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+        display: none; /* Simple toggle can be added with JS if needed, for now, keep it simple */
+    }
+    .main-nav.active .nav-links { /* Example for JS toggle */
+        display: flex;
+    }
+    #language-selector {
+        margin-top: 0.5rem;
+        align-self: flex-start;
+    }
+    .hero-section {
+        padding: 8rem 1rem 6rem 1rem;
+        margin-top: 0; /* Adjust if nav becomes static or toggled */
+        min-height: 60vh;
+    }
+    .hero-content h1 {
+        font-size: 2.5em;
+    }
+    .hero-content .tagline {
+        font-size: 1.1em;
+    }
+    .content-section {
+        padding: 3rem 1rem;
+    }
+    section h2 {
+        font-size: 2em;
+        margin-bottom: 2rem;
+    }
+    .features-grid, .steps-container, .video-row, .testimonials-container, .footer-content {
+        grid-template-columns: 1fr; /* Stack on mobile */
+        gap: 1.5rem;
+    }
+    .dialog-content {
+        width: 95%;
+        padding: 1.5rem;
+    }
+    .chatbot-window {
+        width: calc(100% - 20px);
+        max-height: 75vh;
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        bottom: 80px; /* Above icon */
+    }
+    .chatbot-icon {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 2em;
+    }
+    .hero-content .tagline {
+        font-size: 1em;
+    }
+    section h2 {
+        font-size: 1.8em;
+    }
+    .primary-cta-button, .hero-cta, .get-app-main-button {
+        font-size: 1em;
+        padding: 0.8rem 1.5rem;
+    }
+    .dialog h3 {
+        font-size: 1.4em;
+    }
+    .dialog-buttons button, .dialog-button-group button {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9em;
+    }
+}
+
+
+
+/* === Platform Selection Button Styles === */
+.platform-buttons button {
+    background-color: var(--primary-accent);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: var(--shadow-sm);
+}
+
+.platform-buttons button:hover {
+    background-color: var(--primary-accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.platform-buttons button:active {
+    transform: translateY(0px) scale(0.98);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Optional: Style for a selected platform button if visual feedback for selection is desired via CSS */
+.platform-buttons button.selected {
+    background-color: var(--secondary-accent);
+    color: var(--dark-bg);
+    box-shadow: inset 0 3px 5px rgba(0,0,0,0.2);
+}
+
+
+
+
+/* --- QR Code Display Styles --- */
+#qr-loading-message {
+    color: #fff;
+    font-size: 1.2em;
+    padding: 30px 0;
+}
+
+#qr-code-display-stage {
+    padding: 20px;
+    background-color: #2c2c2c; /* Slightly lighter than dialog background for contrast */
+    border-radius: 8px;
     margin-top: 15px;
-    background: #2b3139;
-    color: #b0b8c5;
-    font-size: 0.85rem;
-    padding: 8px 10px;
+}
+
+#payment-qr-code-image {
+    border: 5px solid #fff;
+    border-radius: 8px;
+    background-color: #fff; /* Ensure QR code background is white if transparent parts */
+}
+
+#qr-code-display-stage p {
+    color: #eee;
+    margin: 8px 0;
+    font-size: 1em;
+}
+
+#qr-code-display-stage p strong {
+    color: #fff;
+}
+
+.wallet-address-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Added gap for spacing */
+    margin-top: 15px;
+}
+
+#payment-wallet-address {
+    flex-grow: 1; /* Allow input to take available space */
+    max-width: 300px; /* Max width for better layout */
+    padding: 10px;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #fff;
     border-radius: 4px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+#copy-wallet-button {
+    padding: 10px 15px;
+    font-size: 0.9em;
+    /* Uses existing .secondary-dialog-button styles, can add specific overrides if needed */
+}
+
+/* Ensure dialog content can accommodate the new QR section */
+.payment-final-dialog .dialog-content {
+    max-width: 500px; /* Adjust if needed */
+}
+
+
+
+/* === Crypto Ticker (Original Style Integration) === */
+#crypto-ticker-container {
+    background-color: #004d40; /* Dark teal - Consider adapting to new theme variables if needed */
+    color: #e0e0e0; /* Light text - Consider adapting to new theme variables */
+    padding: 5px 0;
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
-    border: 1px solid #353a40;
+    /* Ensure it fits well with the new fixed navbar */
+    margin-top: 70px; /* Assuming navbar height is around 70px, adjust as needed */
+    position: relative; /* Or fixed, depending on desired behavior with new nav */
+    z-index: 999; /* Below navbar (1000) but above most content */
 }
 
 #crypto-ticker {
     display: inline-block;
-    padding-left: 100%;
-    animation: ticker-scroll 120s linear infinite;
-    will-change: transform;
+    padding-left: 100%; /* Start off-screen */
+    animation: ticker-scroll 30s linear infinite;
+}
+
+#crypto-ticker span {
+    display: inline-block;
+    padding: 0 15px;
+    font-size: 0.9em;
+}
+
+#crypto-ticker .symbol {
+    color: #ffab40; /* Amber - Consider adapting to new theme variables (e.g., var(--secondary-accent)) */
+    font-weight: bold;
 }
 
 @keyframes ticker-scroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(-100%); }
 }
+/* === End Crypto Ticker Styles === */
 
-/* Wallet Specific Styles */
-.total-balance {
-    background: #2b3139;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
-    text-align: center;
-}
 
-.total-balance h2 {
-    border-bottom: none;
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 8px;
-    font-size: 1rem;
-    color: #b0b8c5;
-}
+/* === Enhanced Button Styles for Coupon and Copy Address (Removed - To be Re-implemented) === */
 
-.total-balance p {
-    font-size: 1.5rem;
+
+
+/* === Enhanced Button Styles for Coupon and Copy Address (v2 - Trust & Usability Focus) === */
+
+/* General button enhancements for dialogs if needed, or apply directly */
+
+/* Apply Coupon Button Styling */
+#price-coupon-stage .coupon-button {
+    background-color: var(--primary-accent);
+    color: white;
+    padding: 0.9rem 1.8rem; /* Increased padding for better touch target and visual weight */
+    font-size: 1em;
     font-weight: 600;
-    color: #eaecef;
-    margin: 0;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: background-color 0.2s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 0.75px; /* Slightly increased letter spacing for clarity */
+    border: 2px solid transparent; /* For a potential focus state or to ensure consistent sizing */
+    cursor: pointer;
+    display: inline-block; /* Ensure it behaves as a block for margin/padding but flows inline */
 }
 
-.crypto-icons {
-    display: grid;
-    grid-template-columns: 1fr; /* Stack coins vertically */
-    gap: 10px;
-    margin-top: 15px;
+#price-coupon-stage .coupon-button:hover {
+    background-color: var(--primary-accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
-.crypto-icon-container {
-    background: #2b3139;
-    border-radius: 4px;
-    padding: 12px;
-    transition: background-color 0.2s;
-    border: 1px solid #353a40;
-    display: flex;
-    align-items: center; /* Align items horizontally */
+#price-coupon-stage .coupon-button:active {
+    transform: translateY(0px);
+    box-shadow: var(--shadow-sm);
+    background-color: var(--primary-accent-dark);
 }
 
-.crypto-icon-container:hover {
-    background-color: #353a40;
+#price-coupon-stage .coupon-button:focus-visible {
+    outline: 2px solid var(--secondary-accent);
+    outline-offset: 2px;
 }
 
-.crypto-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0; /* Removed bottom margin */
-    flex-shrink: 0;
-}
 
-.crypto-icon {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-}
-
-.crypto-details {
-    margin-left: 10px; /* Space between icon and details */
-    flex-grow: 1; /* Take remaining space */
-    text-align: left;
-}
-
-.crypto-name {
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #eaecef;
-    display: block; /* Ensure name is on its own line if needed */
-    margin-bottom: 2px;
-}
-
-.crypto-icon-container p {
-    margin: 2px 0;
-    font-size: 0.85rem;
-    color: #b0b8c5;
-}
-
-.crypto-balance {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #eaecef;
-    margin-top: 0;
-}
-
-.crypto-usd-value {
-    font-size: 0.8rem;
-    color: #707a8a;
-}
-
-.crypto-icon-container button {
-    width: auto; /* Auto width */
-    padding: 6px 10px;
-    font-size: 0.8rem;
-    margin-top: 0; /* Removed top margin */
-    margin-left: auto; /* Push to the right */
-    background-color: #353a40;
-    color: #eaecef;
-    font-weight: 500;
-    flex-shrink: 0; /* Prevent shrinking */
-}
-
-.crypto-icon-container button:hover {
-    background-color: #474d57;
-}
-
-/* Charts & Transactions */
-.charts,
-.transactions {
-    margin-top: 25px;
-    background: #1e2026;
-    border-radius: 8px;
-    padding: 15px;
-    border: 1px solid #2b3139;
-}
-
-.chart-container {
-    position: relative;
-    height: 160px;
-    width: 100%;
-}
-
-#growth-chart {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.transaction {
-    text-align: left;
-    margin-bottom: 10px;
-    padding: 10px;
-    background: #2b3139;
-    border-radius: 4px;
-    border-left: 3px solid #f0b90b;
-    display: flex;
-    flex-direction: column; /* Stack details */
-    align-items: flex-start;
-}
-
-.transaction p {
-    margin: 2px 0;
-    font-size: 0.85rem;
-    color: #b0b8c5;
-    word-wrap: break-word;
-    width: 100%;
-}
-
-.transaction p strong {
-    color: #eaecef;
-    min-width: 50px;
-    display: inline-block;
-    font-weight: 500;
-}
-
-.transaction .txid {
-    font-family: monospace;
-    color: #f0b90b;
-    font-size: 0.8rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal; /* Allow wrapping */
-    max-width: 100%;
-    display: inline-block;
-    vertical-align: middle;
-    margin-bottom: 5px;
-}
-
-.transaction .copy-button {
-    align-self: flex-start;
-}
-
-#transactions-list {
-    max-height: 300px;
-    overflow-y: auto;
-    padding-right: 5px;
-}
-
-/* Custom Scrollbar */
-#transactions-list::-webkit-scrollbar {
-    width: 5px;
-}
-#transactions-list::-webkit-scrollbar-track {
-    background: #1e2026;
-    border-radius: 3px;
-}
-#transactions-list::-webkit-scrollbar-thumb {
-    background: #353a40;
-    border-radius: 3px;
-}
-#transactions-list::-webkit-scrollbar-thumb:hover {
-    background: #474d57;
-}
-
-/* Popups */
-.popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #2b3139;
-    padding: 20px 15px;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    width: 90%;
-    max-width: 400px;
-    z-index: 1000;
-    border: 1px solid #353a40;
-}
-
-.popup h2,
-.popup h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: #eaecef;
-    text-align: center;
-    border-bottom: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-.popup p {
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-    color: #b0b8c5;
-    text-align: center;
-    line-height: 1.4;
-}
-
-.popup .popup-buttons {
-    display: flex;
-    flex-direction: column; /* Stack buttons */
-    margin-top: 20px;
-    gap: 10px;
-}
-
-.popup button {
-    width: 100%;
-    margin-top: 0;
-    font-weight: 600;
-    padding: 12px 15px;
-}
-
-.popup button.cancel-button {
-    background-color: #353a40;
-    color: #eaecef;
-}
-
-.popup button.cancel-button:hover {
-    background-color: #474d57;
-}
-
-.popup img.qr-code {
-    display: block;
-    margin: 15px auto;
-    max-width: 150px;
-    height: auto;
-    border: 4px solid #353a40;
-    border-radius: 4px;
-    background-color: white;
-}
-
-.loading {
-    text-align: center;
-    padding: 20px;
-    color: #707a8a;
-}
-
-.wallet-container {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-    background-color: #1e2026;
-    padding: 8px 10px;
-    border-radius: 4px;
-    border: 1px solid #353a40;
-}
-
-.wallet-address {
-    flex-grow: 1;
+/* Copy Wallet Address Button Styling */
+#copy-wallet-button.copy-button {
+    background-color: var(--secondary-accent);
+    color: var(--dark-bg); /* Ensure high contrast */
+    padding: 0.9rem 1.5rem; /* Matched vertical padding, adjusted horizontal */
+    font-size: 1em;
+    font-weight: 700; /* Bolder for primary action */
+    border-radius: var(--border-radius-md); /* Consistent rounded corners */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
     border: none;
-    background: transparent;
-    color: #eaecef;
-    font-family: monospace;
-    margin-right: 8px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 5px 0;
-    font-size: 0.85rem;
+    box-shadow: var(--shadow-sm);
+    display: inline-flex; /* For potential icon alignment */
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem; /* Space for potential icon */
 }
 
-.wallet-address:focus {
-    outline: none;
+#copy-wallet-button.copy-button:hover {
+    background-color: var(--secondary-accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
-/* Language Selector */
-.language-selector-container {
-    order: 1; /* Position in nav */
-    align-self: center;
-    margin-bottom: 5px;
+#copy-wallet-button.copy-button:active {
+    transform: translateY(0px);
+    box-shadow: var(--shadow-sm);
+    background-color: var(--secondary-accent-dark);
 }
 
-#language-selector {
-    background-color: #2b3139;
-    color: #eaecef;
-    border: 1px solid #353a40;
-    border-radius: 4px;
-    padding: 5px 8px;
-    font-size: 0.85rem;
+#copy-wallet-button.copy-button:focus-visible {
+    outline: 2px solid var(--primary-accent);
+    outline-offset: 2px;
+}
+
+/* Placeholder for icon if FontAwesome is available and user wants to add it */
+/* #copy-wallet-button.copy-button::before {
+    content: "\f0c5"; /* Example: FontAwesome copy icon */
+/*    font-family: "Font Awesome 6 Free"; /* Ensure this matches your FontAwesome setup */
+/*    font-weight: 900; /* For solid icons */
+/*    margin-right: 0.5em; /* Adjust as needed */
+/* } */
+
+/* Ensure the .proceed-button also has good styling if it's distinct */
+#price-coupon-stage .proceed-button {
+    background-color: var(--success-color); /* Using success color for proceed */
+    color: white;
+    padding: 0.9rem 1.8rem;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: background-color 0.2s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    border: none;
     cursor: pointer;
 }
 
-#language-selector:focus {
-    outline: none;
-    border-color: #f0b90b;
+#price-coupon-stage .proceed-button:hover {
+    background-color: #3e8e41; /* Darker green */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
-/* Navigation Menu */
-header {
-    background-color: #1e2026;
-    padding: 8px 10px;
-    border-bottom: 1px solid #2b3139;
-    position: sticky;
-    top: 0;
-    z-index: 900;
-    width: 100%;
+#price-coupon-stage .proceed-button:active {
+    transform: translateY(0px);
+    box-shadow: var(--shadow-sm);
 }
 
-nav.main-nav {
+#price-coupon-stage .proceed-button:focus-visible {
+    outline: 2px solid var(--secondary-accent);
+    outline-offset: 2px;
+}
+
+
+.unique-id-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.unique-id-display-container {
     display: flex;
-    flex-direction: column; /* Stack on mobile */
     align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.unique-id-display {
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #f5f5f5;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px;
+    letter-spacing: 2px;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.copy-button {
+    background: linear-gradient(45deg, #2196F3, #00BCD4);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 8px;
 }
 
-.nav-links {
-    order: 2; /* Below language selector */
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    justify-content: space-around;
-    border-top: 1px solid #2b3139;
-    padding-top: 8px;
+.copy-button:hover {
+    background: linear-gradient(45deg, #1976D2, #00ACC1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.nav-links a {
-    color: #b0b8c5;
+.copy-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.telegram-instructions {
+    margin-top: 15px;
+    color: #555;
+}
+
+.telegram-instructions a {
+    color: #0088cc;
     text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    padding: 5px 0;
-    transition: color 0.2s, border-bottom 0.2s;
-    border-bottom: 2px solid transparent;
+    font-weight: bold;
 }
 
-.nav-links a:hover,
-.nav-links a.active {
-    color: #f0b90b;
-    border-bottom-color: #f0b90b;
+.telegram-instructions a:hover {
+    text-decoration: underline;
 }
 
-/* Chatbot Styles */
-.chatbot-toggler {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    outline: none;
-    border: none;
-    height: 45px;
-    width: 45px;
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #f0b90b;
-    transition: all 0.2s ease;
-    z-index: 999;
+/* Animação para feedback de cópia */
+@keyframes copyFeedback {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
-.chatbot-toggler span {
-    color: #14151a;
-    position: absolute;
-    transition: opacity 0.2s ease;
+.copy-feedback {
+    animation: copyFeedback 0.3s ease-in-out;
 }
-
-body:not(.show-chatbot) .chatbot-toggler span:last-child {
-    opacity: 0;
-}
-body.show-chatbot .chatbot-toggler span:first-child {
-    opacity: 0;
-}
-body.show-chatbot .chatbot-toggler span:last-child {
-    opacity: 1;
-}
-
-.chatbot-popup {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%; /* Full height on mobile */
-    max-height: 100%;
-    background: #1e2026;
-    border-radius: 0; /* No radius on mobile */
-    box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
-                0 32px 64px -48px rgba(0,0,0,0.5);
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(100%); /* Start off-screen */
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    z-index: 998;
-    display: flex;
-    flex-direction: column;
-    border: none; /* No border on mobile */
-}
-
-body.show-chatbot .chatbot-popup {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0); /* Slide in */
-}
-
-.chatbot-popup header {
-    padding: 12px 15px;
-    position: relative;
-    text-align: center;
-    color: #eaecef;
-    background: #2b3139;
-    border-radius: 0;
-    border-bottom: 1px solid #353a40;
-    flex-shrink: 0;
-}
-
-.chatbot-popup header h2 {
-    font-size: 1rem;
-    margin: 0;
-    border-bottom: none;
-    color: #eaecef;
-    font-weight: 600;
-}
-
-.chatbot-popup header .close-btn {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    color: #b0b8c5;
-    cursor: pointer;
-    transform: translateY(-50%);
-    font-size: 1.2rem;
-}
-
-.chatbot-popup header .close-btn:hover {
-    color: #eaecef;
-}
-
-.chatbot-popup .chatbox {
-    overflow-y: auto;
-    flex-grow: 1; /* Take available space */
-    padding: 15px;
-    background: #1e2026;
-    list-style: none;
-}
-
-.chatbot-popup .chatbox::-webkit-scrollbar {
-    width: 5px;
-}
-.chatbot-popup .chatbox::-webkit-scrollbar-track {
-    background: #1e2026;
-}
-.chatbot-popup .chatbox::-webkit-scrollbar-thumb {
-    background: #353a40;
-    border-radius: 3px;
-}
-.chatbot-popup .chatbox::-webkit-scrollbar-thumb:hover {
-    background: #474d57;
-}
-
-.chatbox .chat {
-    display: flex;
-    margin-bottom: 12px;
-}
-
-.chatbox .chat p {
-    color: #eaecef;
-    max-width: 85%;
-    white-space: pre-wrap;
-    font-size: 0.9rem;
-    padding: 10px 14px;
-    border-radius: 10px 10px 0 10px;
-    background: #353a40;
-    margin: 0;
-    line-height: 1.4;
-}
-
-.chatbox .chat p.error {
-    color: #ff4d4f;
-    background: #4d2a2b;
-}
-
-.chatbox .incoming span {
-    width: 30px;
-    height: 30px;
-    color: #eaecef;
-    cursor: default;
-    text-align: center;
-    line-height: 30px;
-    align-self: flex-end;
-    background: #f0b90b;
-    border-radius: 4px;
-    margin: 0 8px 5px 0;
-    font-size: 1.1rem;
-    flex-shrink: 0;
-}
-
-.chatbox .outgoing {
-    margin: 0 0 12px auto;
-    justify-content: flex-end;
-}
-
-.chatbox .outgoing p {
-    border-radius: 10px 10px 10px 0;
-    background: #f0b90b;
-    color: #14151a;
-}
-
-.chatbot-popup .chat-input {
-    display: flex;
-    gap: 5px;
-    position: relative;
-    padding: 8px 15px;
-    border-top: 1px solid #353a40;
-    background: #2b3139;
-    flex-shrink: 0;
-}
-
-.chat-input textarea {
-    height: 48px;
-    width: 100%;
-    border: none;
-    outline: none;
-    resize: none;
-    max-height: 120px;
-    padding: 12px;
-    font-size: 0.9rem;
-    background: #1e2026;
-    border-radius: 4px;
-    color: #eaecef;
-    border: 1px solid #353a40;
-}
-
-.chat-input textarea::placeholder {
-    color: #707a8a;
-}
-
-.chat-input textarea:focus {
-    border-color: #f0b90b;
-}
-
-.chat-input span {
-    align-self: flex-end;
-    color: #707a8a;
-    cursor: pointer;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    visibility: hidden;
-    font-size: 1.2rem;
-    transition: color 0.2s ease;
-}
-
-.chat-input textarea:valid ~ span {
-    visibility: visible;
-}
-
-.chat-input span:hover {
-    color: #f0b90b;
-}
-
-/* Chat Options (Buttons) */
-.chat-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 8px 15px;
-    border-top: 1px solid #353a40;
-    background: #2b3139;
-    flex-shrink: 0;
-}
-
-.chat-options button {
-    flex-grow: 1;
-    flex-basis: calc(50% - 3px);
-    background-color: #353a40;
-    color: #eaecef;
-    padding: 8px 10px;
-    font-size: 0.8rem;
-    width: auto;
-    margin-top: 0;
-    font-weight: 500;
-    text-align: center;
-}
-
-.chat-options button:hover {
-    background-color: #474d57;
-}
-
-/* Footer */
-footer {
-    background-color: #1e2026;
-    padding: 12px 10px;
-    text-align: center;
-    font-size: 0.8rem;
-    color: #707a8a;
-    border-top: 1px solid #2b3139;
-    margin-top: auto; /* Push footer to bottom */
-}
-
-/* Medium screens (Tablets) */
-@media (min-width: 641px) {
-    .main-content {
-        padding: 20px;
-    }
-    .container {
-        padding: 25px;
-    }
-    .login img {
-        width: 50px;
-        height: 50px;
-        margin-bottom: 20px;
-    }
-    h1 { font-size: 1.6rem; margin-bottom: 20px; }
-    h2 { font-size: 1.3rem; margin-bottom: 15px; }
-    h3 { font-size: 1.1rem; margin-bottom: 12px; }
-
-    input[type="text"],
-    input[type="password"] {
-        padding: 12px 15px;
-    }
-    button { padding: 12px 20px; }
-
-    .total-balance { padding: 20px; }
-    .total-balance p { font-size: 1.8rem; }
-
-    .crypto-icons {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust minmax */
-        gap: 15px;
-    }
-    .crypto-icon-container {
-        padding: 15px;
-        flex-direction: column; /* Back to vertical layout */
-        align-items: flex-start;
-    }
-    .crypto-header { margin-bottom: 10px; }
-    .crypto-details { margin-left: 0; }
-    .crypto-icon-container button {
-        width: 100%; /* Full width button */
-        margin-left: 0;
-        margin-top: 15px;
-        padding: 8px 12px;
-        font-size: 0.9rem;
-    }
-
-    .charts, .transactions { padding: 20px; }
-    .chart-container { height: 220px; }
-    .transaction {
-        padding: 12px 15px;
-        flex-direction: row; /* Horizontal layout */
-        align-items: center;
-        justify-content: space-between;
-    }
-    .transaction p { font-size: 0.9rem; width: auto; }
-    .transaction .txid {
-        white-space: nowrap;
-        max-width: calc(100% - 150px); /* Adjust based on other elements */
-        margin-bottom: 0;
-    }
-    .transaction .copy-button {
-        margin-left: 10px;
-        margin-top: 0;
-        align-self: center;
-        padding: 5px 10px;
-        font-size: 0.8rem;
-    }
-    #transactions-list { max-height: 350px; }
-
-    .popup { padding: 25px 30px; max-width: 450px; }
-    .popup h2, .popup h3 { font-size: 1.2rem; }
-    .popup p { font-size: 1rem; }
-    .popup .popup-buttons {
-        flex-direction: row; /* Horizontal buttons */
-        gap: 15px;
-    }
-    .popup img.qr-code { max-width: 180px; }
-    .wallet-address { font-size: 0.9rem; }
-
-    header { padding: 10px 20px; }
-    nav.main-nav {
-        flex-direction: row; /* Horizontal nav */
-        justify-content: space-between;
-        gap: 20px;
-    }
-    .language-selector-container {
-        order: 0; /* Reset order */
-        align-self: center;
-        margin-bottom: 0;
-    }
-    #language-selector { padding: 6px 10px; font-size: 0.9rem; }
-    .nav-links {
-        order: 0; /* Reset order */
-        width: auto;
-        border-top: none;
-        padding-top: 0;
-        gap: 20px;
-    }
-    .nav-links a { font-size: 1rem; padding: 8px 0; }
-
-    .chatbot-toggler { right: 35px; bottom: 30px; height: 50px; width: 50px; }
-    .chatbot-popup {
-        right: 35px;
-        bottom: 95px;
-        width: 90%;
-        max-width: 420px;
-        height: auto; /* Auto height */
-        max-height: 70vh; /* Limit height */
-        border-radius: 15px;
-        transform: scale(0.5);
-        transform-origin: bottom right;
-        border: 1px solid #2b3139;
-        opacity: 0;
-        pointer-events: none;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-    body.show-chatbot .chatbot-popup {
-        transform: scale(1);
-        opacity: 1;
-        pointer-events: auto;
-    }
-    .chatbot-popup header { padding: 16px 20px; border-radius: 15px 15px 0 0; }
-    .chatbot-popup header h2 { font-size: 1.1rem; }
-    .chatbot-popup .chatbox { height: 350px; padding: 20px 20px 15px; }
-    .chatbox .chat p { font-size: 0.95rem; padding: 12px 16px; }
-    .chatbox .incoming span { width: 32px; height: 32px; line-height: 32px; font-size: 1.2rem; margin: 0 10px 7px 0; }
-    .chatbot-popup .chat-input { padding: 10px 20px; }
-    .chat-input textarea { height: 55px; padding: 15px; font-size: 0.95rem; }
-    .chat-input span { height: 55px; font-size: 1.35rem; }
-    .chat-options { padding: 10px 20px; gap: 8px; }
-    .chat-options button { flex-basis: calc(50% - 4px); font-size: 0.9rem; padding: 10px 12px; }
-
-    footer { padding: 20px; font-size: 0.9rem; }
-}
-
-/* Large screens (Desktops) */
-@media (min-width: 1024px) {
-    .container {
-        /* Ensure login container is centered */
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .wallet {
-        max-width: 800px; /* Wider wallet container */
-        /* Ensure wallet container is centered */
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .main-content {
-        /* Ensure content area itself allows centering */
-        align-items: center; /* Vertical centering if needed, adjust as per design */
-    }
-    nav.main-nav {
-        /* Already centered via max-width and margin: auto */
-    }
-}
-
-/* Further adjustments for very small screens if needed */
-@media (max-width: 360px) {
-    h1 { font-size: 1.2rem; }
-    .total-balance p { font-size: 1.4rem; }
-    .crypto-icon-container button { font-size: 0.75rem; padding: 5px 8px; }
-    .nav-links a { font-size: 0.85rem; }
-    .chatbox .chat p { font-size: 0.85rem; padding: 8px 12px; }
-    .chat-options button { font-size: 0.75rem; padding: 6px 8px; }
-}
-
